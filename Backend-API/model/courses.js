@@ -16,11 +16,6 @@ const CourseSchema = new mongoose.Schema({
   lessons: [{
     title: String,
     content: String
-    // quiz: {
-    //   question: String,
-    //   choices: [String],
-    //   answer: String
-    // }
   }],
   materials: [{
     title: String,
@@ -29,6 +24,10 @@ const CourseSchema = new mongoose.Schema({
   students: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  }],
+  quizzes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Quiz'
   }],
   isFree: {
     type: Boolean,
