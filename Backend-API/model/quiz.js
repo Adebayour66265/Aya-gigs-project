@@ -15,20 +15,24 @@ const questionSchema = new mongoose.Schema({
     },
     explanation: {
         type: String,
-        required:[true, "explanation is needed"]
+        required: false
     },
 });
 
 const quizSchema = new mongoose.Schema({
-    quizName:{
-        type: String,
-        required:[true, "Quiz name is needed"]
+    courseId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+        required: true
     },
     description:{
         type: String,
-        required:[true, "description of quiz is needed"]
+        required: false
     },
-    questions:[questionSchema]
+    questions:{
+        type: [questionSchema],
+        required: true
+    }
 },{
     timestamps: true,
     toJSON:{virtuals:true}
