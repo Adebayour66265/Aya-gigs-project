@@ -91,5 +91,13 @@ const userRoleSchema = new mongoose.Schema({
 
 // Create user model
 const User = mongoose.model('User', userRoleSchema);
+// Define admin middleware
+function adminMiddleware(req, res, next) {
+  if(req.user.role === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ message: 'Access denied. Admin role required.' });
+  }
+}
 
-export default User;
+export default {User, adminMiddleware};
