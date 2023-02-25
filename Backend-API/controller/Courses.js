@@ -21,7 +21,7 @@ export const addCourse = async (req, res) => {
 };
 
 // Get all courses
-export const getCourses = async (req, res) => {
+export const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find();
 
