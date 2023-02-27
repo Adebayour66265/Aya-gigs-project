@@ -1,4 +1,4 @@
-import Notification from "../../model/notification";
+import Notification from "../../model/notification.js";
 import User from "../../model/user";
 
 export const getAllNotifications = async(req,res)=>{
@@ -35,4 +35,25 @@ export const getParticularTask = async(req,res)=>{
             message: "An error occured while retrieving this Notification"
         })
     }
+}
+export const deleteParticularTask = async(req,req)=>{
+    try {
+        const deletedNotification = await Notification.findByIdAndDelete(req.params.id);
+        if (!deletedNotification) {
+          return res.json({
+            status: "Error",
+            message: "Notification not found"
+          })
+        }
+        res.json({
+            status: "Success",
+            message: "Notification deleted successfully"
+        });
+      } catch (err) {
+        console.error(err);
+        res.json({
+          status: "Error",
+          message: "Internal Server Error"
+        });
+      }
 }
