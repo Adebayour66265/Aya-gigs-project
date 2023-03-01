@@ -3,14 +3,14 @@ import { getAllCourses, getCourse, addCourse, updateCourse, deleteCourse } from 
 
 const courseRoutes = express.Router();
 
+// Create a new course
+courseRoutes.post('/', addCourse);
+
 // Get all courses
 courseRoutes.get('/', getAllCourses);
 
 // Get a single course
 courseRoutes.get('/:id', getCourse);
-
-// Create a new course
-courseRoutes.post('/', addCourse);
 
 // Update an existing course
 courseRoutes.put('/:id', updateCourse);

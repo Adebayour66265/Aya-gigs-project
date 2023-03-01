@@ -5,13 +5,21 @@ export const addCourse = async (req, res) => {
   try {
     const { title, instructor, description, isFree, courseThumbnailImage } = req.body;
 
-    const newCourse = new Course({
-      title,
-      // courseThumbnailImage,
-      instructor,
-      description,
-      isFree
-    });
+  //   const newCourse = await Course.create({
+  //     title,
+  //     instructor,
+  //     description,
+  //     isFree,
+  // });
+
+  const newCourse = new Course({
+    title,
+    // courseThumbnailImage,
+    instructor,
+    description,
+    isFree
+  });
+
 
     await newCourse.save();
 
@@ -75,15 +83,19 @@ export const updateCourse = async (req, res) => {
 // Delete a course
 export const deleteCourse = async (req, res) => {
   try {
-    const course = await Course.findById(req.params.id);
+    const deletedCourse = await Course.findByIdAndDelete(req.params.id);
 
-    if (!course) {
-      return res.status(404).json({ message: 'Course not found' });
+    if(deletedCourse){
+      return res.status(200).json({
+          status: "Course deleted successfully",
+          data: {deletedCourse}
+    });
+    }else{
+        res.status(404).json({
+            status: "error",
+            message: "Course not found"
+    });
     }
-
-    await course.remove();
-
-    res.status(200).json({ message: 'Course deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
