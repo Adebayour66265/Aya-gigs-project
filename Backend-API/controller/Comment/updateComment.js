@@ -1,4 +1,4 @@
-const Comment = require('../../model/Comment')
+const Comment = require('../../model/Comments')
 
 module.exports = async (req, res) => {
   const { text } = req.body
@@ -9,10 +9,10 @@ module.exports = async (req, res) => {
       $set: {
         text,
       },
-    }
+    },
   )
   const data = await Comment.find({ _id: req.params.commentId }).select(
-    'text -_id'
+    'text -_id',
   )
   const updatedData = {
     data,

@@ -1,6 +1,4 @@
-/* eslint no-underscore-dangle: "off" */
-
-const Comment = require('../../model/Comment')
+const Comment = require('../../model/Comments')
 
 module.exports = async (req, res) => {
   await Comment.deleteOne({ _id: req.params.commentId })

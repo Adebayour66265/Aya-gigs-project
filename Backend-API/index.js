@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json({ limit: '50mb' }))
 app.use('/discussion', Discussion)
 app.use('/comment', Comment)
-app.use('/', user)
+
 
 app.listen(PORT, () => {
   debug(`Web server is running ${PORT}`)
