@@ -1,7 +1,8 @@
-const express = require('express');
-const { checkout, removeFromCart, addToCart, getCart } = require('../controller/CartPurchase');
-const { isLoggedIn } = require('../middleware/auth');
-const CartPurchase = require('../model/CartPurchase');
+import express from "express";
+import { checkout, removeFromCart, addToCart, getCart } from '../controller/CartPurchase.js';
+import isLoggedIn from '../middleware/auth/isLoggedIn.js';
+import CartPurchase from '../model/CartPurchase.js';
+
 
 
 const cartPurchaseRoutes = express.Router();

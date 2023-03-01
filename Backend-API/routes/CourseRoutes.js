@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllCourses, getCourse, createCourse, updateCourse, deleteCourse } from '../controllers/Courses.js';
+import { getAllCourses, getCourse, addCourse, updateCourse, deleteCourse } from '../controller/Courses.js';
 
 const courseRoutes = express.Router();
 
@@ -10,7 +10,7 @@ courseRoutes.get('/', getAllCourses);
 courseRoutes.get('/:id', getCourse);
 
 // Create a new course
-courseRoutes.post('/', createCourse);
+courseRoutes.post('/', addCourse);
 
 // Update an existing course
 courseRoutes.put('/:id', updateCourse);
