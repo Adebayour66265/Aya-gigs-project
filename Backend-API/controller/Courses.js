@@ -3,10 +3,11 @@ import Course from '../model/Courses.js';
 // Add a new course
 export const addCourse = async (req, res) => {
   try {
-    const { title, instructor, description, isFree } = req.body;
+    const { title, instructor, description, isFree, courseThumbnailImage } = req.body;
 
     const newCourse = new Course({
       title,
+      // courseThumbnailImage,
       instructor,
       description,
       isFree
