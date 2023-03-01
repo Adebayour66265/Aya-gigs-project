@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const  MONGODBURI  process.env.MONGODBURI
+const  MONGODBURI  =process.env.MONGODBURI
 
 module.exports = async () => {
   mongoose.set("strictQuery", false)

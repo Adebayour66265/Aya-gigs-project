@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose')
 
 // Define user schema
 const userRoleSchema = new mongoose.Schema({
@@ -80,4 +80,4 @@ const userRoleSchema = new mongoose.Schema({
 const User = mongoose.model('User', userRoleSchema);
 
 
-export default User;
+module.exports = User;
