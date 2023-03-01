@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken",
-import expressjwt from "express-jwt",
+import jwt from "jsonwebtoken"
+import expressjwt from "express-jwt"
 import User from "../model/userModel";
 
 

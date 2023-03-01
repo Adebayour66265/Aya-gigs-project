@@ -16,7 +16,7 @@ export const getAllNotifications = async(req,res)=>{
     }
 }
 
-export const getParticularTask = async(req,res)=>{
+export const getParticularNotification = async(req,res)=>{
     try {
         const notification = await Notification.findById(req.params.id);
         if (!notification) {
@@ -36,7 +36,7 @@ export const getParticularTask = async(req,res)=>{
         })
     }
 }
-export const deleteParticularTask = async(req,req)=>{
+export const deleteParticularNotification = async(req,req)=>{
     try {
         const deletedNotification = await Notification.findByIdAndDelete(req.params.id);
         if (!deletedNotification) {
@@ -56,4 +56,19 @@ export const deleteParticularTask = async(req,req)=>{
           message: "Internal Server Error"
         });
       }
+}
+
+export const clearNotifications = async(req,res)=>{
+  try {
+    await Notification.deleteMany({});
+    res.json({
+      status: "Success",
+      message: "Notifications Cleared Successfully"
+    });
+  } catch (error) {
+    res.json({
+      status: "Error",
+      message: "An error occured while clearing notifications"
+    });
+  }
 }
