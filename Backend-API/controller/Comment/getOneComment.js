@@ -1,6 +1,6 @@
 
 
-const Discussion = require('../../model/Discussion')
+const Discussion = require('../../model/Disscussion')
 
 module.exports = async (req, res) => {
   const { postId, commentId } = req.params
