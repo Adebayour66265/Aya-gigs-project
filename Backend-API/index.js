@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 require('dotenv').config()
-const debug = require('debug')('app')
+// const debug = require('debug')('app')
 const PORT = process.env.PORT
 
 const app = express()
@@ -23,10 +23,11 @@ app.use(cors({ origin: '*' }))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json({ limit: '50mb' }))
+
 app.use('/discussion', Discussion)
 app.use('/comment', Comment)
 
 
 app.listen(PORT, () => {
-  debug(`Web server is running ${PORT}`)
+  console.log(`Web server is running ${PORT}`)
 })
