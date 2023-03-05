@@ -9,7 +9,7 @@ function validateInput(quiz) {
             .items({
                 question: Joi.string().required(),
                 options: Joi.string().required(),
-                correctOptions: Joi.number().required,
+                correctOptions: Joi.number().required(),
                 explanation: Joi.string().required(),
             })
         }
