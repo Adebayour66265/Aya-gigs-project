@@ -1,5 +1,3 @@
-
-
 const Discussion = require('../../model/Disscussion')
 
 module.exports = async (req, res) => {

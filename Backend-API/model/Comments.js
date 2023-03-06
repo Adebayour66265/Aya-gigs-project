@@ -8,7 +8,7 @@ const commentSchema = mongoose.Schema(
     postedBy: String,
     blogpost: { type: mongoose.Schema.Types.ObjectId, ref: 'Blog' },
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 module.exports = mongoose.model('Comment', commentSchema)

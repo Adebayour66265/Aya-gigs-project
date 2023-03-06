@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
   await Discussion.findOneAndUpdate(
     { _id: req.params.id },
-    { $push: { comments: savedComment } }
+    { $push: { comments: savedComment } },
   )
 
   return res.status(200).json({ message: 'comment added', data })
