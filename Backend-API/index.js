@@ -31,3 +31,23 @@ app.use('/comment', Comment)
 app.listen(PORT, () => {
   console.log(`Web server is running ${PORT}`)
 })
+=======
+import express from 'express';
+import dotenv from 'dotenv';
+import  {dbConnect}  from './config/dbConnect.js';
+// import router from './routes/userRoutes.js';
+
+dotenv.config();
+dbConnect();
+
+const app = express();
+
+app.use(express.json());
+
+// app.use('/api/v1/users', router);
+
+
+const PORT = process.env.port || 3000;
+
+app.listen(PORT, console.log(`Server is running at ${PORT}` ));
+>>>>>>> Stashed changes

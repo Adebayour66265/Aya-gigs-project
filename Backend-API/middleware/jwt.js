@@ -1,6 +1,12 @@
+<<<<<<< Updated upstream
 import jwt from 'jsonwebtoken'
 import expressjwt from 'express-jwt'
 import User from '../model/userModel'
+=======
+import jwt from "jsonwebtoken",
+import expressjwt from "express-jwt",
+import User from "../model/User";
+>>>>>>> Stashed changes
 
 const JWT_SECRET = 'secret_key'
 
@@ -55,7 +61,7 @@ function adminMiddleware(req, res, next) {
   }
 }
 
-module.exports = {
+export default  {
   generateToken,
   authenticateToken,
   authorizeRole,
