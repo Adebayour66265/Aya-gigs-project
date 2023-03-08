@@ -11,11 +11,11 @@ const Discussion = require('./routes/Discussion')
 const Comment = require('./routes/Comment')
 
 process.on('unhandledRejection', (err) => {
-  debug(err, 'Unhandled Rejection at Promise')
+  console.log(err, 'Unhandled Rejection at Promise')
   process.exit(1)
 })
 process.on('uncaughtException', (err) => {
-  debug(err, 'Uncaught Exception thrown')
+  console.log(err, 'Uncaught Exception thrown')
   process.exit(1)
 })
 
