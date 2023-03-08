@@ -1,6 +1,7 @@
 const Discussion = require('../../model/Discussion')
 const User = require('../../model/User')
-const postDiscusion = require('../../validation/Discussion')
+const postDiscusion = require('../../validation/Discussion/postDisscussion')
+
 
 module.exports = async (req, res) => {
   const { value, error } = postDiscusion(req.body)
