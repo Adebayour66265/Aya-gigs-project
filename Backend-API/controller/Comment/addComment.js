@@ -1,4 +1,4 @@
-const Discussion = require('../../model/Disscussion')
+const Discussion = require('../../model/Discussion')
 const Comment = require('../../model/Comments')
 
 module.exports = async (req, res) => {

@@ -1,7 +1,7 @@
-const Discussion = require('../../model/Disscussion')
+const Discussion = require('../../model/Discussion')
 const cloudinary = require('../../utilis/cloudinary')
 
-// const updateDiscussion = require('../../validation/updateDiscussion')
+const updateDiscussion = require('../../validation/Discussion/updateDiscussion')
 
 module.exports = async (req, res) => {
   const { value, error } = updateDiscussion(req.body)

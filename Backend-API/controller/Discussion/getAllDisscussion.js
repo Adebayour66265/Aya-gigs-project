@@ -1,4 +1,4 @@
-const Discussion = require('../../Model/Discussion')
+const Discussion = require('../../model/Discussion')
 
 module.exports = async (req, res) => {
   const result = await Discussion.find().populate('comments')

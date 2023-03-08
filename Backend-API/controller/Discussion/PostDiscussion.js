@@ -1,8 +1,9 @@
-const Discussion = require('../../model/Disscussion')
+const Discussion = require('../../model/Discussion')
 const User = require('../../model/User')
+const postDiscusion = require('../../validation/Discussion')
 
 module.exports = async (req, res) => {
-  const { value, error } = uploadBlog(req.body)
+  const { value, error } = postDiscusion(req.body)
   if (error) return res.status(400).send({ error: error.details[0].message })
   const { title, author, body } = value
   const user = await User.findOne({ _id: req.user._id }).select(
