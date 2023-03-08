@@ -36,4 +36,4 @@ const discussionSchema = mongoose.Schema(
   { timestamps: true },
 )
 
-module.exports = mongoose.model('Discussion', discussionSchema)
+export default  mongoose.model('Discussion', discussionSchema)

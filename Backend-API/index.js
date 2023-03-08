@@ -1,11 +1,16 @@
-const express = require('express')
-const cors = require('cors')
-require('dotenv').config()
+import express from 'express'
+import cors from 'cors'
+
+import * as dotenv from 'dotenv' 
+import { dbConnection } from './db/db.js';
+dotenv.config()
 // const debug = require('debug')('app')
 const PORT = process.env.PORT
+const app = express();
 
-const app = express()
-require('./db/db')()
+
+dbConnection();
+
 
 const Discussion = require('./routes/Discussion')
 const Comment = require('./routes/Comment')
