@@ -5,13 +5,13 @@ module.exports = async (req, res) => {
   const comment = new Comment({
     text: req.body.text,
     post: req.params.id,
-    postedBy: req.user.fullname,
+    // postedBy: req.user.fullname,
   })
 
   const savedComment = await comment.save()
   const data = {
     text: savedComment.text,
-    postedBy: savedComment.postedBy,
+    // postedBy: savedComment.postedBy,
   }
 
   await Discussion.findOneAndUpdate(
