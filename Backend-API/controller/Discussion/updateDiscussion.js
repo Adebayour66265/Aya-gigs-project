@@ -1,4 +1,4 @@
-const Discussion = require('../../model/Discussion')
+import  Discussion  from '../../model/Discussion';
 const cloudinary = require('../../utilis/cloudinary')
 
 const updateDiscussion = require('../../validation/Discussion/updateDiscussion')

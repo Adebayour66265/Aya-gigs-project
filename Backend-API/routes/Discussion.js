@@ -5,8 +5,8 @@ const router = express.Router()
 const storage = require('../utilis/multer')
 
 const upload = multer({ storage })
+import { PostDiscussion } from '../controller/Discussion/PostDiscussion'
 
-const PostDiscussion = require('../controller/Discussion/PostDiscussion')
 const updateDiscussion = require('../controller/Discussion/updateDiscussion')
 const deleteDiscussion = require('../controller/Discussion/deleteDiscussion')
 const getAllDisscussion = require('../controller/Discussion/getAllDisscussion')
