@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 // Define user schema
 const userRoleSchema = new mongoose.Schema(
@@ -30,7 +30,8 @@ const userRoleSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Company',
     },
-    companyName: { type: String, required: true, lowercase: true },
+    // companyName: { type: String, required: true, lowercase: true },
+    companyName: { type: String, lowercase: true },
     businessType: {
       type: String,
       enum: [],
@@ -73,4 +74,4 @@ const userRoleSchema = new mongoose.Schema(
 // Create user model
 const User = mongoose.model('User', userRoleSchema)
 
-module.exports = User
+export default User
