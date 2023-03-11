@@ -20,7 +20,7 @@ import loginInstructorValidation  from "../validation/loginInstructor.js";
     try {
       // Check if user already exists
         const user = await User.findOne({ email });
-        if (role !== 'instructor') return res.status(400).send('Access denied');
+        if (role !== 'student') return res.status(400).send('Access denied');
       if (user) {
         return res.status(400).json({ msg: 'User already exists' });
         // Hash password and save user
@@ -142,9 +142,9 @@ import loginInstructorValidation  from "../validation/loginInstructor.js";
   }
 
 export const deleteUserById = async (req, res) => {
-  const {id} = req.params;
+  
     try {
-      const user = await User.findById({_id:id});
+      const user = await User.findById(req.userAuth);
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
@@ -244,3 +244,46 @@ export const deleteUserById = async (req, res) => {
       console.log(error.message);
   }
   }
+
+    //Block 
+    export const blockUser = async (req,res) => {
+      try{
+          const userToBlock = await User.findById(req.params.id);
+          const userBlocking = await User.findById(req.userAuth);
+  
+          if(userToBlock && userBlocking) {
+            const isUserBlock =  userBlocking.Blocked.find(block=> block.toString()===userToBlock._id.toString()); 
+  
+            if(isUserBlock) {
+              return res.json({message:`you have block ${userToBlock.firstname} already`});
+            }else{
+              userBlocking.Blocked.push(userToBlock._id);
+              await userBlocking.save();
+              return res.json({message:`you have just block ${userToBlock.firstname}`})
+            }
+          }
+      }catch(error) {
+          res.json({message:error.message});
+      }
+  }
+  export const unBlockUser = async (req,res) => {
+      try{
+          const userToUnblock = await User.findById(req.params.id);
+          const userUnblocking = await User.findById(req.userAuth);
+          if(userToUnblock && userUnblocking ) {
+              const isUserUnblock = userUnblocking.Blocked.find(unblocked=> unblocked.toString()===userToUnblock._id.toString());
+  
+              if (!isUserUnblock) {
+                  return res.json({message: `you did not block ${userToUnblock.firstname}`});
+              }else{
+                  userUnblocking.Blocked = userUnblocking.Blocked.filter(user=>user.toString()!==userToUnblock._id.toString());
+                  await userUnblocking.save();
+  
+                  res.json({message:`you have unblock ${userToUnblock.firstname} successfully`})
+              }
+          }
+      }catch(error){
+          res.json({message:error.message});
+      }
+  }
+  

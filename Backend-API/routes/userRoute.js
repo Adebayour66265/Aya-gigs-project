@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { register, registerInstructor, login,getAllUsers,getUserById,updateUserById, deleteUserById, loginInstructor} from "../controller/userController.js";
+import { register, registerInstructor, login,getAllUsers,getUserById,updateUserById, deleteUserById, loginInstructor,blockUser, unBlockUser} from "../controller/userController.js";
 import { authenticateToken } from '../middleware/authenticateToken.js';
 
 
@@ -31,7 +31,11 @@ router.get('/profile/',authenticateToken, getUserById);
 router.put('/:id',  updateUserById);
 
 // Delete a user by ID
-router.delete('/:id',authenticateToken, deleteUserById);
+router.delete('/delete/',authenticateToken, deleteUserById);
+// Block user
+router.get('/blocked/:id', authenticateToken, blockUser);
+//unblocked user
+router.get('/unblocked/:id', authenticateToken, unBlockUser);
 
 export default router;
 

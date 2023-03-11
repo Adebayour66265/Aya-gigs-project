@@ -79,12 +79,25 @@ const userRoleSchema = new mongoose.Schema({
     createdAt: {
       type: Date,
       default: Date.now
-    }
+    },
+    courses: [
+      {
+        courseName: { 
+          type: String, 
+          required: true },
+        courseId: { 
+          type: mongoose.Schema.Types.ObjectId, 
+          ref: 'User' },
+        status: { 
+          type: String, 
+          enum: ['enrolled', 'completed'], default: 'enrolled' }
+      }
+    ]
   }],
-
-  
-
-  
+  isBlock: {
+    type:Boolean,
+    default: false
+  },
   isAdmin: {
     type: Boolean,
     default: false
@@ -96,7 +109,10 @@ const userRoleSchema = new mongoose.Schema({
     ref: "User"
     }
   ],
-  
+  Blocked: [{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: "User"
+}],
      
 },
 {timestamps:true,
