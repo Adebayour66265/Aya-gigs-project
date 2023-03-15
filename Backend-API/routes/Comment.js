@@ -1,12 +1,11 @@
-const express = require('express')
+import express from 'express'
 
 const router = express.Router()
-
-const addComment = require('../controller/Comment/addComment')
-const getAllComment = require('../controller/Comment/getAllComment')
-const getOneComment = require('../controller/Comment/getOneComment')
-const deleteComment = require('../controller/Comment/deleteComment')
-const updateComment = require('../controller/Comment/updateComment')
+import { addComment } from '../controller/Comment/addComment'
+import { getAllComment } from '../controller/Comment/getAllComment'
+import { getOneComment } from '../controller/Comment/getOneComment'
+import { deleteComment } from '../controller/Comment/deleteComment'
+import { updateComment } from '../controller/Comment/updateComment'
 
 router.post('/:id', addComment)
 router.get('/:id', getAllComment)

@@ -1,9 +1,9 @@
 import  Discussion  from '../../model/Discussion';
-const cloudinary = require('../../utilis/cloudinary')
+import { cloudinary } from '../../utilis/cloudinary';
+import { updateDiscussion } from '../../validation/Discussion/updateDiscussion';
 
-const updateDiscussion = require('../../validation/Discussion/updateDiscussion')
 
-module.exports = async (req, res) => {
+export const updateDiscussion = async (req, res) => {
   const { value, error } = updateDiscussion(req.body)
   if (error) return res.status(400).send({ error: error.details[0].message })
 

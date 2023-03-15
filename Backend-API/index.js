@@ -11,9 +11,8 @@ const app = express();
 
 dbConnection();
 
-
-const Discussion = require('./routes/Discussion')
-const Comment = require('./routes/Comment')
+import Discussion from './routes/Discussion'
+import Comment from './routes/Comment'
 
 process.on('unhandledRejection', (err) => {
   console.log(err, 'Unhandled Rejection at Promise')
