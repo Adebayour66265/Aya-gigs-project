@@ -10,14 +10,14 @@ import express from 'express'
 const quizRoute = express.Router()
 
 //post quiz
-quizRoute.post('/quizzes', postQuizController)
+quizRoute.post('/', postQuizController);
 //update quiz
-quizRoute.put('/quizzes/:id', updateQuizController)
+quizRoute.put('/:id', updateQuizController);
 //get all quiz
-quizRoute.get('/quizzes/', getAllQuizController)
+quizRoute.get('/', getAllQuizController);
 //get one quiz
-quizRoute.get('/quizzes/:id', getOneQuizController)
+quizRoute.get('/:id', getOneQuizController);
 //delete quiz
-quizRoute.delete('/quizzes/:id', deleteQuizController)
+quizRoute.delete('/:id', deleteQuizController);
 
 export default quizRoute
