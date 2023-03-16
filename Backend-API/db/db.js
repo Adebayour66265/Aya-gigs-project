@@ -3,7 +3,7 @@ const MONGODBURI = process.env.MONGODBURI
 
 export const dbConnection = async () => {
   mongoose.set('strictQuery', false)
-  const mongooseConnect = await mongoose.connect(MONGODBURI, {
+  const mongooseConnect = await mongoose.connect(process.env.MONGODBURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

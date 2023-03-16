@@ -1,9 +1,10 @@
 import express from 'express'
 import cors from 'cors'
+import router from './routes/userRoute.js';
 
-import * as dotenv from 'dotenv' 
-import { dbConnection } from './db/db';
-dotenv.config()
+import { config } from 'dotenv';
+config();
+import { dbConnection } from './db/db.js';
 // const debug = require('debug')('app')
 const PORT = process.env.PORT
 const app = express();
@@ -21,5 +22,6 @@ process.on('uncaughtException', (err) => {
 })
 
 app.use("/api/users", router);
+
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
