@@ -9,6 +9,8 @@ require('./db/db')()
 
 const Discussion = require('./routes/Discussion')
 const Comment = require('./routes/Comment')
+const question = require('./routes/question')
+const quiz = require('./routes/quiz')
 
 process.on('unhandledRejection', (err) => {
   console.log(err, 'Unhandled Rejection at Promise')
@@ -26,7 +28,8 @@ app.use(express.json({ limit: '50mb' }))
 
 app.use('/discussion', Discussion)
 app.use('/comment', Comment)
-
+app.use('/question', question)
+app.use('/quiz', quiz)
 
 app.listen(PORT, () => {
   console.log(`Web server is running ${PORT}`)
