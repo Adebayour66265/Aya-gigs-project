@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import * as dotenv from 'dotenv' 
-import { dbConnection } from './db/db.js';
+import { dbConnection } from './db/db';
 dotenv.config()
 // const debug = require('debug')('app')
 const PORT = process.env.PORT
@@ -10,9 +10,6 @@ const app = express();
 
 
 dbConnection();
-
-import Discussion from './routes/Discussion'
-import Comment from './routes/Comment'
 
 process.on('unhandledRejection', (err) => {
   console.log(err, 'Unhandled Rejection at Promise')
@@ -23,15 +20,6 @@ process.on('uncaughtException', (err) => {
   process.exit(1)
 })
 
-app.use(cors({ origin: '*' }))
+app.use("/api/users", router);
 
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json({ limit: '50mb' }))
-
-app.use('/discussion', Discussion)
-app.use('/comment', Comment)
-
-
-app.listen(PORT, () => {
-  console.log(`Web server is running ${PORT}`)
-})
+app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
