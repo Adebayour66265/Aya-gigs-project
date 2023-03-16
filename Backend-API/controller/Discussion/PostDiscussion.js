@@ -1,7 +1,7 @@
-import  Discussion  from '../../model/Discussion';
-const User = require('../../model/User')
-import postDiscusion from '../../validation/Discussion/postDisscussion'
-import { cloudinary } from '../../utilis/cloudinary';
+import  Discussion  from '../../model/Discussion.js';
+// const User = require('../../model/User')
+import postDiscusion from '../../validation/Discussion/postDisscussion.js'
+import { cloudinaryUtil } from '../../utilis/cloudinary.js';
 
 
 export const postDiscussion = async (req, res) => {
@@ -15,7 +15,7 @@ export const postDiscussion = async (req, res) => {
   const {
     secure_url: image,
     public_id: cloudinary_id,
-  } = await cloudinary.uploader.upload(req.file.path)
+  } = await cloudinaryUtil.uploader.upload(req.file.path)
   await Discussion.create({
     image,
     cloudinary_id,

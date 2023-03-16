@@ -1,6 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import router from './routes/userRoute.js';
+import discussion from './routes/Discussion.js';
+import comments from './routes/Comment.js';
+
 
 import { config } from 'dotenv';
 config();
@@ -22,6 +25,10 @@ process.on('uncaughtException', (err) => {
 })
 
 app.use("/api/users", router);
+app.use("/api/discussion", discussion);
+app.use("/api/comments", comments);
+
+
 
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));

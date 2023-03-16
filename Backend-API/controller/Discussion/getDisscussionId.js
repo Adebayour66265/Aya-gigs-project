@@ -1,4 +1,4 @@
-import  Discussion  from '../../model/Discussion';
+import  Discussion  from '../../model/Discussion.js';
 
 export const getDiscussionId = async (req, res) => {
   const result = await Discussion.findById(req.params.id).populate('comments')

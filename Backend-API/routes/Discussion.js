@@ -1,25 +1,23 @@
 import multer from 'multer'
 import express from 'express'
-const router = express.Router()
-const storage = require('../utilis/multer')
+const discussion = express.Router()
+import storage  from '../utilis/multer.js'
 
 const upload = multer({ storage })
-import { PostDiscussion } from '../controller/Discussion/PostDiscussion'
-import { updateDiscussion } from '../validation/Discussion/updateDiscussion'
-import { deleteDiscussion } from '../controller/Discussion/deleteDiscussion'
-import { getAllDiscussion } from '../controller/Discussion/getAllDisscussion'
-import { getDiscussionId } from '../controller/Discussion/getDisscussionId'
+import { postDiscussion } from '../controller/Discussion/PostDiscussion.js'
+import { updateDiscussion } from '../validation/Discussion/updateDiscussion.js'
+import { deleteDiscussion } from '../controller/Discussion/deleteDiscussion.js'
+import { getAllDiscussion } from '../controller/Discussion/getAllDisscussion.js'
+import { getDiscussionId } from '../controller/Discussion/getDisscussionId.js'
 
+discussion.get('/', getAllDiscussion)
 
+discussion.get('/:id', getDiscussionId)
 
-router.get('/', getAllDiscussion)
+discussion.post('/', upload.single('image'), postDiscussion)
 
-router.get('/:id', getDiscussionId )
+discussion.put('/:id', updateDiscussion)
 
-router.post('/', upload.single('image'), PostDiscussion )
+discussion.delete('/:id', deleteDiscussion)
 
-router.put('/:id', updateDiscussion)
-
-router.delete('/:id', deleteDiscussion)
-
-module.exports = router
+export default discussion

@@ -1,6 +1,6 @@
-import  Discussion  from '../../model/Discussion';
-import { cloudinary } from '../../utilis/cloudinary';
-import { updateDiscussion } from '../../validation/Discussion/updateDiscussion';
+import  Discussion  from '../../model/Discussion.js';
+import { cloudinary } from '../../utilis/cloudinary.js';
+import { updateDiscussion } from '../../validation/Discussion/updateDiscussion.js';
 
 
 export const updateDiscussion = async (req, res) => {
