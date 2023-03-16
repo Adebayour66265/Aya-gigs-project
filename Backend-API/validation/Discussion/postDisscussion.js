@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-module.exports = function validate(input) {
+export const postDiscusion = function validate(input) {
   const schema = Joi.object({
     title: Joi.string().required(),
     author: Joi.string().required(),

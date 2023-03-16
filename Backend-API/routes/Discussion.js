@@ -1,22 +1,22 @@
-const multer = require('multer')
-const express = require('express')
-
+import multer from 'multer'
+import express from 'express'
 const router = express.Router()
 const storage = require('../utilis/multer')
 
 const upload = multer({ storage })
+import { PostDiscussion } from '../controller/Discussion/PostDiscussion'
+import { updateDiscussion } from '../validation/Discussion/updateDiscussion'
+import { deleteDiscussion } from '../controller/Discussion/deleteDiscussion'
+import { getAllDiscussion } from '../controller/Discussion/getAllDisscussion'
+import { getDiscussionId } from '../controller/Discussion/getDisscussionId'
 
-const PostDiscussion = require('../controller/Discussion/PostDiscussion')
-const updateDiscussion = require('../controller/Discussion/updateDiscussion')
-const deleteDiscussion = require('../controller/Discussion/deleteDiscussion')
-const getAllDisscussion = require('../controller/Discussion/getAllDisscussion')
-const getDisscussionId = require('../controller/Discussion/getDisscussionId')
 
-router.get('/', getAllDisscussion)
 
-router.get('/:id', getDisscussionId)
+router.get('/', getAllDiscussion)
 
-router.post('/', upload.single('image'), PostDiscussion)
+router.get('/:id', getDiscussionId )
+
+router.post('/', upload.single('image'), PostDiscussion )
 
 router.put('/:id', updateDiscussion)
 

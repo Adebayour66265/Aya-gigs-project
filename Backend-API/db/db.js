@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 const MONGODBURI = process.env.MONGODBURI
 
-module.exports = async () => {
+export const dbConnection = async () => {
   mongoose.set('strictQuery', false)
   const mongooseConnect = await mongoose.connect(MONGODBURI, {
     useNewUrlParser: true,
@@ -13,3 +13,5 @@ module.exports = async () => {
     console.log('Not Connected to Database')
   }
 }
+
+require(../db/db)
