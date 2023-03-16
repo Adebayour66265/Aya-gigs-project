@@ -1,103 +1,96 @@
+import Course from "../model/Courses.js";
 import Quiz from "../model/quiz.js";
-import validateInput from "../validation/quiz.js";
 
 
-
-export const postQuizController = async(req, res) => {
+export const postQuiz = async(req, res) => {
     try {
-        const {error} = validateInput(req.body);
-        if (error) return res.status(400).send(error.details[0].message);
-        const quiz = new Quiz ({
-            courseId: req.params.id,
-            description,
-            questions: [],
+        const course = await Course.findById(req.params.courseId);
+        if(!course){
+          res.status(404).json({error:'course not found'});
+        }
+        const quiz = new Quiz({ 
+            name: req.body.name,
+            description:req.body.description,
+            course: req.body.courseId 
         });
-        
-        await quiz.save()
-
-        res.json({
-            status: success,
-            data: quiz
-        })
-    
+        await quiz.save();
+        course.quiz.push(quiz._id);
+        await course.save();
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json({ message: error.message })
+    }
+};
+export const updateQuiz= async(req, res) => {
+    try {
+          const {title, description} = req.body
+          const quiz = await Quiz.findByIdAndUpdate(
+            {_id:req.params.quizId, courseId: req.params.courseId},
+            { $set:{title, description}},
+            { new: true }
+          );
+          if (quiz) {
+            return res.status(200).json({
+              status: 'success',
+              data: { quiz },
+            })
+          } else {
+            res.status(404).json({
+              status: 'error',
+              message: 'Quiz id not found',
+            })
+          }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+};
+export const getAllQuizForCourse = async(req, res) => {
+    try {
+        const quizzes = await Quiz.find({ courseId: req.params.courseId });
+        if (quizzes) {
+            return res.status(200).json({
+              status: 'success',
+              data: { quizzes },
+            })
+          } else {
+            res.status(404).json({
+              status: 'error',
+              message: 'not found',
+            })
+          }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
     }
 }
-export const updateQuizController = async(req, res) => {
-    const {error} = validateInput(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+export const getOneQuizForCourse = async(req, res) => {
     try {
-        const quiz = await Quiz.findByIdAndUpdate(req.params.id);
-
-        if (!quiz){
-            return res.status(404).send("quiz with such id not found")
-        } else {
-
-            await quiz.save();
-
-            res.json({
-                status: success,
-                data: quiz
-            })
+      const{courseId, quizId}= req.params;
+        const course = await Course.findById(courseId);
+        if (!course){
+          res.status(404).json({message: 'Course not found'});
+        } 
+        const quiz = course.quizzes.id(quizId)
+        if(!quiz){
+          res.status(404).json({message: 'Quiz not found in course'});
         }
+        res.json(quiz);
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json({ message: 'server error'});
     }
-
 }
-
-export const getAllQuizController = async(req, res) => {
-
+export const deleteQuiz = async(req, res) => {
     try {
-        const quiz = await Quiz.find();
-        
-            res.json({
-                status: success,
-                data: quiz
-            })
-        
-    } catch (error) {
-        res.json(error.message)
-    }
-
-}
-
-export const getOneQuizController = async(req, res) => {
-
-    try {
-        const quiz = await Quiz.find(req.params.id);
-        
-            res.json({
-                status: success,
-                data: quiz
-            })
-        
-    } catch (error) {
-        res.json(error.message)
-    }
-
-}
-
-export const deleteQuizController = async(req, res) => {
-    
-    try {
-        const quiz = await Quiz.findById(req.params.id)
-
-        if (!quiz){
-            return res.status(404).send("quiz not found")
+        const {courseId, quizId} = req.params;
+        const courseIndex = Course.findIndex(course => course.Id === courseId);
+        if (courseIndex === -1){
+          res.status(404).json({error:'course not found'});
         }
-
-        await quiz.remove();
-
-        res.json({
-            status: success,
-            data: quiz
-        })
-        
+        const quizIndex = Course[courseIndex].quizzes.findIndex(quiz => quiz.Id === quizId);
+        if (quizIndex === -1){
+          res.status(404).json({error:'quiz not found'});
+        }
+        Course[courseIndex].quizzes.splice(quizIndex, 1);
+        res.json({message:'quiz deleted successfully'});
     } catch (error) {
-        res.json(error.message)
+        res.status(500).json({ message: error.message })
     }
-
 }
-

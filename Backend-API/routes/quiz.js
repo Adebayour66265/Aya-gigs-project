@@ -1,23 +1,17 @@
-import {
-  deleteQuizController,
-  getAllQuizController,
-  getOneQuizController,
-  postQuizController,
-  updateQuizController,
-} from '../controller/quiz.js'
 import express from 'express'
+import { deleteQuiz, getAllQuizForCourse, getOneQuizForCourse, postQuiz, updateQuiz } from '../controller/quiz.js';
 
 const quizRoute = express.Router()
 
-//post quiz
-quizRoute.post('/quizzes', postQuizController)
-//update quiz
-quizRoute.put('/quizzes/:id', updateQuizController)
-//get all quiz
-quizRoute.get('/quizzes/', getAllQuizController)
-//get one quiz
-quizRoute.get('/quizzes/:id', getOneQuizController)
-//delete quiz
-quizRoute.delete('/quizzes/:id', deleteQuizController)
+//post quiz in a course
+quizRoute.post('/:courseId/quizzes', postQuiz);
+//update quiz in  a course
+quizRoute.put('/:courseId/quizzes/:quizId', updateQuiz);
+//get all quizzes for a course
+quizRoute.get('/:courseId/quizzes', getAllQuizForCourse);
+//get one quiz for a course
+quizRoute.get('/:courseId/quizzes/:quizId', getOneQuizForCourse);
+//delete quiz in a course
+quizRoute.delete('/:courseId/quizzes/:quizId', deleteQuiz);
 
 export default quizRoute
