@@ -2,6 +2,7 @@ import multer from 'multer'
 import express from 'express'
 const discussion = express.Router()
 import storage  from '../utilis/multer.js'
+console.log(storage)
 
 const upload = multer({ storage })
 import { postDiscussion } from '../controller/Discussion/PostDiscussion.js'
