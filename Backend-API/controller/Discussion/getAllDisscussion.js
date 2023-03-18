@@ -1,4 +1,4 @@
-import Discussion from '../../model/Discussion'
+import Discussion from '../../model/Discussion.js'
 
 export const getAllDiscussion = async (req, res) => {
   const result = await Discussion.find().populate('comments')

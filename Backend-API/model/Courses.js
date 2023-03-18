@@ -1,56 +1,64 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 
 const CourseSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   // courseThumbnailImage: {
   //   type: String,
   // },
   instructor: {
     type: String,
-    required: true
+    required: true,
   },
   description: {
     type: String,
-    required: true
+    required: true,
   },
-  lessons: [{
-    title: String,
-    content: String
-  }],
-  materials: [{
-    title: String,
-    link: String
-  }],
-  students: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  quizzes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Quiz'
-  }],
+  lessons: [
+    {
+      title: String,
+      content: String,
+    },
+  ],
+  materials: [
+    {
+      title: String,
+      link: String,
+    },
+  ],
+  students: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  quizzes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Quiz',
+    },
+  ],
   isFree: {
     type: Boolean,
-    default: false
+    default: false,
   },
   isApproved: {
     type: Boolean,
-    default: false
+    default: false,
   },
   status: {
     type: String,
     enum: ['New', 'In-progress', 'Completed'],
-    default: 'New'
+    default: 'New',
   },
   createdAt: {
     type: Date,
-    default: Date.now
-  }
-});
+    default: Date.now,
+  },
+})
 
-const Course = mongoose.model('Course', CourseSchema);
+const Course = mongoose.model('Course', CourseSchema)
 
-export default Course;
+export default Course

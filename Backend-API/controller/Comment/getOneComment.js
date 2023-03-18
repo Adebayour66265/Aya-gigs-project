@@ -1,4 +1,4 @@
-import Discussion  from '../../model/Discussion'
+import Discussion  from '../../model/Discussion.js'
 
 export const getOneComment = async (req, res) => {
   const { postId, commentId } = req.params
