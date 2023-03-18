@@ -3,6 +3,9 @@ import cors from 'cors'
 import router from './routes/userRoute.js';
 import discussion from './routes/Discussion.js';
 import comments from './routes/Comment.js';
+import courseRoutes from './routes/CourseRoutes.js'
+import cartPurchaseRoutes from './routes/CartPurchaseRoutes.js'
+import userRoutes from './routes/UserRoutes.js';
 
 
 import { config } from 'dotenv';
@@ -32,10 +35,14 @@ process.on('uncaughtException', (err) => {
 })
 
 app.use("/api/users", router);
-app.use("/api/discussion", discussion);
-app.use("/api/comments", comments);
+app.use('/api/v1/courses', courseRoutes);
+app.use('/api/v1/cartPurchase', cartPurchaseRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/discussions', discussion);
+app.use('/api/v1/comments', comments);
 
-
-
+// app.use('/discussion', Discussion)
+// app.use('/comment', Comment)
+// app.use('/user', UserRoutes)
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));
