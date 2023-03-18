@@ -1,9 +1,9 @@
 import  Discussion  from '../../model/Discussion.js';
 // const User = require('../../model/User')
 import postDiscusion from '../../validation/Discussion/postDisscussion.js'
-import cloudinaryUtil  from '../../utilis/cloudinary.js';
+import cloudinary  from '../../utilis/cloudinary.js';
 
-console.log(cloudinaryUtil)
+
 export const postDiscussion = async (req, res) => {
   
   const { value, error } = postDiscusion(req.body)
@@ -12,11 +12,11 @@ export const postDiscussion = async (req, res) => {
   // const user = await User.findOne({ _id: req.user._id }).select(
   //   'fullname email -_id',
   // )
-  console.log(await cloudinaryUtil.uploader.upload(req.file.path), 'yello' )
+  console.log(await cloudinary.uploader.upload(req.file.path), 'yello' )
   const {
     secure_url: image,
     public_id: cloudinary_id,
-  } = await cloudinaryUtil.uploader.upload(req.file.path)
+  } = await cloudinary.uploader.upload(req.file.path)
   await Discussion.create({
     image,
     cloudinary_id,

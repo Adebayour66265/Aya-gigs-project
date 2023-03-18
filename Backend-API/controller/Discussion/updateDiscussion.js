@@ -1,12 +1,10 @@
 import  Discussion  from '../../model/Discussion.js';
-import { cloudinary } from '../../utilis/cloudinary.js';
 import { updateDiscussion } from '../../validation/Discussion/updateDiscussion.js';
+import cloudinary  from '../../utilis/cloudinary.js';
 
-
-export const updateDiscussion = async (req, res) => {
+export const putDiscussion = async (req, res) => {
   const { value, error } = updateDiscussion(req.body)
   if (error) return res.status(400).send({ error: error.details[0].message })
-
   const post = await Discussion.findById(req.params.id)
   if (!post)
     return res.status(404).send({ message: 'Discussion post not found' })
