@@ -1,8 +1,7 @@
 import multer from 'multer'
 import express from 'express'
 const discussion = express.Router()
-import storage  from '../utilis/multer.js'
-console.log(storage)
+import storage from '../utilis/multer.js'
 
 const upload = multer({ storage })
 import { postDiscussion } from '../controller/Discussion/PostDiscussion.js'
@@ -16,8 +15,7 @@ discussion.get('/', getAllDiscussion)
 discussion.get('/:id', getDiscussionId)
 
 discussion.post('/', upload.single('image'), postDiscussion)
-
-discussion.put('/:id', updateDiscussion)
+discussion.put('/:id', upload.single('image'), updateDiscussion)
 
 discussion.delete('/:id', deleteDiscussion)
 
