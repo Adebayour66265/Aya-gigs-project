@@ -5,27 +5,27 @@ import {
   addToCart,
   getCart,
 } from '../controller/CartPurchase.js'
-import isLoggedIn from '../middleware/auth/isLoggedIn.js'
 import CartPurchase from '../model/CartPurchase.js'
+import {authenticateToken} from "../middleware/jwt.js";
 
 const cartPurchaseRoutes = express.Router()
 
 // Get user's cart
-cartPurchaseRoutes.get('/cart', isLoggedIn, getCart)
+cartPurchaseRoutes.get('/cart', authenticateToken, getCart)
 
 // Add course to cart
-cartPurchaseRoutes.post('/cart/add', isLoggedIn, addToCart)
+cartPurchaseRoutes.post('/cart/add', authenticateToken, addToCart)
 
 // Remove course from cart
-cartPurchaseRoutes.post('/cart/remove', isLoggedIn, removeFromCart)
+cartPurchaseRoutes.post('/cart/remove', authenticateToken, removeFromCart)
 
 // Get user's purchases
-cartPurchaseRoutes.get('/purchases', isLoggedIn, checkout)
+cartPurchaseRoutes.get('/purchases', authenticateToken, checkout)
 
 // ===========OR TRY THIS BELOW DURING TESTING OF ROUTES ==========
 
 // Purchase courses in cart
-cartPurchaseRoutes.post('/purchase', isLoggedIn, async (req, res) => {
+cartPurchaseRoutes.post('/purchase', authenticateToken, async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user.id }).populate('courses')
     if (!cart) {

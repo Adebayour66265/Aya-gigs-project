@@ -100,8 +100,4 @@ const userRoleSchema = new mongoose.Schema(
 // Create user model
 const User = mongoose.model("User", userRoleSchema);
 
-<<<<<<< HEAD
-export default User
-=======
 export default User;
->>>>>>> 94df72916da229680558c1d74fa557dbe7930ada

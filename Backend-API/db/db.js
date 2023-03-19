@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-const MONGODBURI = process.env.MONGODBURI
 
 export const dbConnection = async () => {
   mongoose.set('strictQuery', false)
@@ -13,5 +12,3 @@ export const dbConnection = async () => {
     console.log('Not Connected to Database')
   }
 }
-
-require(../db/db)

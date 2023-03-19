@@ -5,7 +5,9 @@ import {
   addCourse,
   updateCourse,
   deleteCourse,
-} from '../Controller/Courses.js'
+  searchCourses,
+} from '../controller/Courses.js'
+
 
 const courseRoutes = express.Router()
 
@@ -23,5 +25,8 @@ courseRoutes.put('/:id', updateCourse)
 
 // Delete a course
 courseRoutes.delete('/:id', deleteCourse)
+
+// Search for courses
+courseRoutes.get('/search/:id', searchCourses)
 
 export default courseRoutes

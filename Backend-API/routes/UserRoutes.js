@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from "multer";
-import {storage} from '../utilis/cloudinary.js';
+import {storage} from '../utilis/cloudinary-multer.js';
 import { getUser } from "../controller/User/getUser.js";
 import { loginUser } from "../controller/User/loginUser.js";
 import { registerUser } from "../controller/User/registerUser.js";
