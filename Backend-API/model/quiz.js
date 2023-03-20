@@ -15,7 +15,12 @@ const quizSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
       }
-    ]
+    ],
+    courseId:{
+      type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+        //required: true
+    }
   },
   {
     timestamps: true,

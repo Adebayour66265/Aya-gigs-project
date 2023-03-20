@@ -4,7 +4,7 @@ import { deleteQuiz, getAllQuizForCourse, getOneQuizForCourse, postQuiz, updateQ
 const quizRoute = express.Router()
 
 //post quiz in a course
-quizRoute.post('/:courseId/quizzes', postQuiz);
+quizRoute.post('/:id/quizzes', postQuiz);
 //update quiz in  a course
 quizRoute.put('/:courseId/quizzes/:quizId', updateQuiz);
 //get all quizzes for a course
