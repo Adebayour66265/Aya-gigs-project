@@ -1,25 +1,17 @@
-const express = require('express')
-const asyncMiddleware = require('../middleware/async')
+import express from 'express'
 
-const router = express.Router()
+const comments = express.Router()
+import { addComment } from '../controller/Comment/addComment.js'
+import { getAllComment } from '../controller/Comment/getAllComment.js'
+import { getOneComment } from '../controller/Comment/getOneComment.js'
+import { deleteComment } from '../controller/Comment/deleteComment.js'
+import { updateComment } from '../controller/Comment/updateComment.js'
 
-const auth = require('../middleware/auth')
+comments.post('/:id', addComment)
+comments.get('/:id', getAllComment)
+comments.get('/:postId/comments/:commentId/getone', getOneComment)
+comments.delete('/:commentId', deleteComment)
 
-const addComment = require('../controller/Comment/addComment')
-const getAllComment = require('../controller/Comment/getAllComment')
-const getOneComment = require('../controller/Comment/getOneComment')
-const deleteComment = require('../controller/Comment/deleteComment')
-const updateComment = require('../controller/Comment/updateComment')
+comments.put('/putcomment/:commentId', updateComment)
 
-router.post('/:id', auth, asyncMiddleware(addComment))
-router.get('/:id', auth, asyncMiddleware(getAllComment))
-router.get(
-  '/:postId/comments/:commentId/getone',
-  auth,
-  asyncMiddleware(getOneComment)
-)
-router.delete('/:commentId', auth, asyncMiddleware(deleteComment))
-
-router.put('/putcomment/:commentId', auth, asyncMiddleware(updateComment))
-
-module.exports = router
+export default comments;

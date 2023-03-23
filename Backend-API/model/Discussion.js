@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const discussionSchema = mongoose.Schema(
   {
@@ -33,7 +33,7 @@ const discussionSchema = mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
-module.exports = mongoose.model('Discussion', discussionSchema)
+export default  mongoose.model('Discussion', discussionSchema)

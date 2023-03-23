@@ -1,8 +1,6 @@
+import Discussion  from '../../model/Discussion.js'
 
-
-const Discussion = require('../../model/Discussion')
-
-module.exports = async (req, res) => {
+export const getOneComment = async (req, res) => {
   const { postId, commentId } = req.params
 
   const post = await Discussion.findById(postId).populate('comments')

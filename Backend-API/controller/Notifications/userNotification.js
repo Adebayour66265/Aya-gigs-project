@@ -1,5 +1,5 @@
-import Notification from "../../model/notification.js";
-import User from "../../model/userModel.js";
+import Notification from '../../model/notification.js'
+import User from '../../model/userModel.js'
 import Course from '../model/Courses.js';
 
 
@@ -33,42 +33,42 @@ export const createNotification = async(req,res)=>{
 }
 
 
-export const getAllNotifications = async(req,res)=>{
-    try {
-        const notifications = await Notification.find({ recipient });
-            res.json({
-                status: "Success",
-                data: notifications
-            })
-    } catch (error) {
+export const getAllNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find({ recipient })
     res.json({
-      status: "Error",
-      message: "An error occured while retrieving Notifications"
-    });
-    }
+      status: 'Success',
+      data: notifications,
+    })
+  } catch (error) {
+    res.json({
+      status: 'Error',
+      message: 'An error occured while retrieving Notifications',
+    })
+  }
 }
 
-export const getParticularNotification = async(req,res)=>{
-    try {
-        const notification = await Notification.findById(req.params.id);
-        if (!notification) {
-            return res.json({
-                status: "Error",
-                message: "Notification not found"
-            })
-          }
-          res.json({
-            status: "Success",
-            data: notification
-          });
-    } catch (error) {
-        res.json({
-            status: "Error",
-            message: "An error occured while retrieving this Notification"
-        })
+export const getParticularNotification = async (req, res) => {
+  try {
+    const notification = await Notification.findById(req.params.id)
+    if (!notification) {
+      return res.json({
+        status: 'Error',
+        message: 'Notification not found',
+      })
     }
+    res.json({
+      status: 'Success',
+      data: notification,
+    })
+  } catch (error) {
+    res.json({
+      status: 'Error',
+      message: 'An error occured while retrieving this Notification',
+    })
+  }
 }
-export const deleteParticularNotification = async(req,res)=>{
+export const deleteParticularNotification = async(req,req)=>{
     try {
         const deletedNotification = await Notification.findByIdAndDelete(req.params.id);
         if (!deletedNotification) {
@@ -90,17 +90,17 @@ export const deleteParticularNotification = async(req,res)=>{
       }
 }
 
-export const clearNotifications = async(req,res)=>{
+export const clearNotifications = async (req, res) => {
   try {
-    await Notification.deleteMany({});
+    await Notification.deleteMany({})
     res.json({
-      status: "Success",
-      message: "Notifications Cleared Successfully"
-    });
+      status: 'Success',
+      message: 'Notifications Cleared Successfully',
+    })
   } catch (error) {
     res.json({
-      status: "Error",
-      message: "An error occured while clearing notifications"
-    });
+      status: 'Error',
+      message: 'An error occured while clearing notifications',
+    })
   }
 }

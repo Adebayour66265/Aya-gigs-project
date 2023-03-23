@@ -1,29 +1,22 @@
-// const multer = require('multer')
-const express = require('express')
+import multer from 'multer'
+import express from 'express'
+const discussion = express.Router()
+import storage from '../utilis/multer.js'
 
-const router = express.Router()
+const upload = multer({ storage })
+import { postDiscussion } from '../controller/Discussion/PostDiscussion.js'
+import { putDiscussion } from '../controller/Discussion/updateDiscussion.js'
+import { deleteDiscussion } from '../controller/Discussion/deleteDiscussion.js'
+import { getAllDiscussion } from '../controller/Discussion/getAllDisscussion.js'
+import { getDiscussionId } from '../controller/Discussion/getDisscussionId.js'
 
-// const auth = require('../middleware/auth')
+discussion.get('/', getAllDiscussion)
 
-// const storage = require('../utilis/multer')
+discussion.get('/:id', getDiscussionId)
 
-// const upload = multer({ storage })
+discussion.post('/', upload.single('image'), postDiscussion)
+discussion.put('/:id', upload.single('image'), putDiscussion)
 
-const PostDiscussion = require('../controller/Discussion/PostDiscussion')
-const updateDiscussion = require('../controller/Discussion/updateDiscussion')
-const getDiscussionId = require('../controller/Discussion/getDiscussionId')
-const getAllDiscussion = require('../controller/Discussion/getAllDiscussion')
-const deleteDiscussion = require('../controller/Discussion/deleteDiscussion')
-const DiscussionPagination = require('../controller/Discussion/DiscussionPagination')
+discussion.delete('/:id', deleteDiscussion)
 
-router.post('/', PostDiscussion)
-router.get('/:id', validateObjectId, asyncMiddleware(getDiscussionId))
-
-router.post('/', auth, upload.single('image'), asyncMiddleware(createDiscussion))
-
-router.put('/:id', auth, upload.single('image'), asyncMiddleware(updateDiscussion))
-
-router.delete('/:id', auth, asyncMiddleware(deleteDiscussion))
-
-
-module.exports = router
+export default discussion
