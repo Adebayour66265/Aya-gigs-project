@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     secure_url: image,
     public_id: cloudinary_id,
   } = await cloudinary.uploader.upload(req.file.path)
-  awaitDiscussion.create({
+  await Discussion.create({
     image,
     cloudinary_id,
     title,

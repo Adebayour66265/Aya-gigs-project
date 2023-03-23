@@ -1,20 +1,20 @@
 import jwt from "jsonwebtoken"
 import expressjwt from "express-jwt"
-import User from "../model/userModel";
+import User from "../model/userModel.js";
 
 
 const JWT_SECRET = 'secret_key';
 
 // Generate JWT token
-function generateToken(user) {
-  const token = jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, {
-    expiresIn: '1h'
-  });
-  return token;
-}
+//  generateToken(User) {
+//   const token = jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, {
+//     expiresIn: '1h'
+//   });
+//   return token;
+// }
 
 // Authenticate JWT token
-function authenticateToken(req, res, next) {
+export default function authenticateToken (req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   
@@ -55,9 +55,9 @@ function adminMiddleware(req, res, next) {
   }
   
 
-module.exports = {
-  generateToken,
-  authenticateToken,
-  authorizeRole,
-  adminMiddleware
-};
+// module.exports = {
+//   generateToken,
+//   authenticateToken,
+//   authorizeRole,
+//   adminMiddleware
+// };

@@ -1,5 +1,5 @@
 import Quiz from "../model/quiz";
-import Course from "../model/courses";
+import Course from "./model/courses";
 
 //post quiz and exams
 export const postQuizAndExamsCtrl = async(req, res) => {

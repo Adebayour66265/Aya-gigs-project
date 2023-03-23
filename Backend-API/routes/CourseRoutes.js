@@ -1,16 +1,16 @@
 import express from 'express';
-import { getAllCourses, getCourse, createCourse, updateCourse, deleteCourse } from '../controllers/Courses.js';
+import { getAllCourses, getCourse, addCourse, updateCourse, deleteCourse } from '../controller/Courses.js';
 
 const courseRoutes = express.Router();
 
 // Get all courses
-courseRoutes.get('/', getAllCourses);
+courseRoutes.get('/all', getAllCourses);
 
 // Get a single course
-courseRoutes.get('/:id', getCourse);
+courseRoutes.get('/get/:id', getCourse);
 
 // Create a new course
-courseRoutes.post('/', createCourse);
+courseRoutes.post('/add', addCourse);
 
 // Update an existing course
 courseRoutes.put('/:id', updateCourse);

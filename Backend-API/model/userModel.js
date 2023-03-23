@@ -26,7 +26,7 @@ const userRoleSchema = new mongoose.Schema({
     type: String 
   },
   companyId: { 
-    type: _Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId, 
     ref: 'Company', 
     },
   companyName:{type: String,
@@ -55,8 +55,6 @@ const userRoleSchema = new mongoose.Schema({
     enum: ['superuser', 'admin', 'instructor', 'student'],
     default: 'student'
   },
-
-
   
   isAdmin: {
     type: Boolean,
@@ -71,8 +69,8 @@ const userRoleSchema = new mongoose.Schema({
   ],
   
 
-    timestamps:true,
-    toJSON:{virtuals:true},
+    // timestamps:true,
+    // toJSON:{virtuals:true},
     }
 );
 
