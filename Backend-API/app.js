@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import {connectDB} from './db/db.js'
 import courseRoutes from "./routes/CourseRoutes.js";
+import userRouters from "./routes/UserRoutes.js";
+import router from "./routes/userRoute.js";
 dotenv.config();
 connectDB();
 const app = express()
@@ -33,7 +35,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/api/v1/test", courseRoutes)
+app.use("/api/v1/test", router)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {

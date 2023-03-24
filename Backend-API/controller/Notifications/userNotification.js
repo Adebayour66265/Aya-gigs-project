@@ -3,69 +3,58 @@ import User from '../../model/userModel.js'
 import Course from '../model/Courses.js';
 
 
-export const createNotification = async(req,res)=>{
+export const sendNewMaterialNotification = async (courseId, title) => {
   try {
-    const course = await Course.findById(courseId).populate('students');
-    const instructor = course.instructor;
-    const courseName = course.title;
-    const newNotification = new Notification({
-      recipient: null, // null since the notification is for all students in the course
-      subject: 'New Course Created',
-      message: `A new course titled ${courseName} has been created by ${instructor}.`
-    });
-    await newNotification.save();
-    for (const student of course.students) {
-      const existingNotification = await Notification.findOne({
-        recipient: student._id,
-        subject: 'New Course Created',
-        message: `A new course titled ${courseName} has been created by ${instructor}.`
-      }); 
-      if (!existingNotification) {
-        newNotification.recipient = student._id;
-        await newNotification.save();
-        student.notifications.push(newNotification);
-        await student.save();
-      }
+    const course = await Course.findById(courseId);
+    if (!course) {
+      throw new Error("Course not found");
     }
+
+    const students = await User.find({ _id: { $in: course.students } });
+    const notificationMessage = `New course material "${title}" has been created in ${course.title}`;
+    const notifications = students.map(student => ({
+      recipient: student._id,
+      subject: "New Course Material Created",
+      message: notificationMessage,
+      isRead: false
+    }));
+    const savedNotifications = await Notification.insertMany(notifications);
+
+    students.forEach(async (student) => {
+      student.notifications.push(savedNotifications.find(n => n.recipient.toString() === student._id.toString())._id);
+      await student.save();
+    });
   } catch (error) {
-    console.error(error);
+    console.error(`Error sending notification: ${error.message}`);
   }
-}
+};
 
 
 export const getAllNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ recipient })
-    res.json({
-      status: 'Success',
-      data: notifications,
-    })
+    const userNotifications = await Notification.find({
+      recipient: req.user._id,
+      isRead: false,
+    });
+    res.json(userNotifications);
   } catch (error) {
-    res.json({
-      status: 'Error',
-      message: 'An error occured while retrieving Notifications',
-    })
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 }
 
 export const getParticularNotification = async (req, res) => {
+  const { id } = req.params;
   try {
-    const notification = await Notification.findById(req.params.id)
+    const notification = await Notification.findById(id);
     if (!notification) {
-      return res.json({
-        status: 'Error',
-        message: 'Notification not found',
-      })
+      return res.status(404).json({ message: "Notification not found" });
     }
-    res.json({
-      status: 'Success',
-      data: notification,
-    })
+    notification.isRead = true;
+    await notification.save();
+    res.json(notification);
   } catch (error) {
-    res.json({
-      status: 'Error',
-      message: 'An error occured while retrieving this Notification',
-    })
+    res.status(500).json({ message: error.message });
   }
 }
 export const deleteParticularNotification = async(req,req)=>{

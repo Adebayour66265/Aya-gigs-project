@@ -5,7 +5,7 @@ import User from '../model/User.js'
 const JWT_SECRET = 'secret_key'
 
 // Generate JWT token
-function generateToken(user) {
+export const generateToken = async(req,res)=> {
   const token = jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, {
     expiresIn: '1h'
   });
@@ -13,7 +13,7 @@ function generateToken(user) {
 }
 
 // Authenticate JWT token
-function authenticateToken(req, res, next) {
+export const authenticateToken = async (req, res, next)=> {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   
@@ -62,9 +62,9 @@ export  function adminMiddleware(req, res, next) {
 //   adminMiddleware,
 // }
 
-module.exports = {
-  generateToken,
-  authenticateToken,
-  authorizeRole,
-  adminMiddleware
-};
+// module.exports = {
+//   generateToken,
+//   authenticateToken,
+//   authorizeRole,
+//   adminMiddleware
+// };

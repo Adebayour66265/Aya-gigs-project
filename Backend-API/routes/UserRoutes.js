@@ -1,6 +1,6 @@
 import express from 'express'
-import multer from "multer";
-import {storage} from '../utilis/cloudinary-multer.js';
+// import multer from "multer";
+// import {storage} from '../utilis/cloudinary-multer.js';
 import { getUser } from "../controller/User/getUser.js";
 import { loginUser } from "../controller/User/loginUser.js";
 import { registerUser } from "../controller/User/registerUser.js";
@@ -13,7 +13,7 @@ import {authenticateToken} from "../middleware/jwt.js";
 
 
 const userRouters = express.Router();
-const upload = multer({storage})
+// const upload = multer({storage})
 
 
 // Register User
@@ -36,7 +36,7 @@ userRouters.delete("/:id", deleteUser)
 // update user
 userRouters.put("/:id", updateUser)
 
-userRouters.post("/profile-image",authenticateToken, upload.single("profile"), profilePhotoUpload )
+// userRouters.post("/profile-image",authenticateToken, upload.single("profile"), profilePhotoUpload )
 
 
 export default userRouters;

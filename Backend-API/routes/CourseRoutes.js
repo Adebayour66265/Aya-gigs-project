@@ -20,8 +20,6 @@ courseRoutes.get('/', getAllCourses);
 // Get a single course
 courseRoutes.get('/:id', getCourse);
 
-// Create a new course
-courseRoutes.post('/', createCourse);
 
 // Update an existing course
 courseRoutes.put('/:id', updateCourse)

@@ -17,7 +17,7 @@ export const register = async (req, res) => {
   try {
     // Check if user already exists
     const user = await User.findOne({ email });
-    if (role !== "admin") return res.status(400).send("Access denied");
+    // if (role !== "admin") return res.status(400).send("Access denied");
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
       // Hash password and save user
