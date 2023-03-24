@@ -1,7 +1,6 @@
 import Course from "../model/Courses.js";
 import Quiz from "../model/quiz.js";
 
-
 export const postQuiz = async(req, res) => {
     try {
         const course = await Course.findById(req.params.id);
@@ -19,77 +18,95 @@ export const postQuiz = async(req, res) => {
     }
 };
 export const updateQuiz= async(req, res) => {
-    try {
-        const {title, description, questions} = req.body;
-          const quiz = await Quiz.findByIdAndUpdate(
-            {_id:req.params.quizId, courseId: req.params.courseId},
-            { $set:{title, description, questions}},
-            { new: true }
-          );
-          quiz.questions.push()
-          if (quiz) {
-            return res.status(200).json({
-              status: 'success',
-              data: { quiz },
-            })
-          } else {
-            res.status(404).json({
-              status: 'error',
-              message: 'Quiz id not found',
-            })
-          }
-    } catch (error) {
-        res.status(500).json({ message: error.message })
+  try {
+    const { title, description, questions } = req.body;
+    const courseId = req.params.courseId;
+    const quizId = req.params.quizId;
+    const course = await Course.findById(courseId).populate('quizzes');
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
     }
+    const quiz = course.quizzes.find((quiz) => quiz._id == quizId);
+    if (!quiz) {
+      return res.status(404).json({ message: 'Quiz not found' });
+    }
+    quiz.title = title;
+    quiz.description = description;
+    quiz.questions = questions;
+    await quiz.save();
+    return res.status(200).json({
+      status: 'success',
+      data: { quiz },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 export const getAllQuizForCourse = async(req, res) => {
-    try {
-        const quizzes = await Quiz.find({ courseId: req.params.courseId });
-        console.log(req.params.courseId);
-        if (quizzes) {
-            return res.status(200).json({
-              status: 'success',
-              data: { quizzes },
-            })
-          } else {
-            res.status(404).json({
-              status: 'error',
-              message: 'not found',
-            })
-          }
-    } catch (error) {
-        res.status(500).json({ message: error.message })
+  try {
+    const courseId = req.params.courseId;
+    const course = await Course.findById(courseId).populate('quizzes');
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
     }
+    const quizzes = course.quizzes;
+    if (!quizzes || quizzes.length === 0) {
+      return res.status(404).json({ message: 'No quizzes found for this course' });
+    }
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        quizzes: quizzes,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
 }
 export const getOneQuizForCourse = async(req, res) => {
-    try {
-        const course = await Course.findById(req.params.courseId);
-        if (!course){
-          return res.status(404).json({message: 'Course not found'});
-        } 
-        const quiz = await Quiz.findOne({ _id: req.params.quizId, course: course._id });
-        if(!quiz){
-        return res.status(404).json({message: 'Quiz not found in course'});
-        }
-      res.status(200).json({ message: 'success', data: quiz })
-    } catch (error) {
-      res.status(500).json({ message: error.message })
+  try {
+    const courseId = req.params.courseId;
+    const quizId = req.params.quizId;
+    const course = await Course.findById(courseId).populate('quizzes');
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
     }
+    const quiz = course.quizzes.find(q => q._id.toString() === quizId);
+    if (!quiz) {
+      return res.status(404).json({ message: 'Quiz not found for this course' });
+    }
+    return res.status(200).json({
+    status: 'success',
+    data: {
+      quiz: quiz,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
 }
 export const deleteQuiz = async(req, res) => {
-    try {
-        const {courseId, quizId} = req.params;
-        const courseIndex = Course.findIndex(course => course.Id === courseId);
-        if (courseIndex === -1){
-          res.status(404).json({error:'course not found'});
-        }
-        const quizIndex = Course[courseIndex].quizzes.findIndex(quiz => quiz.Id === quizId);
-        if (quizIndex === -1){
-          res.status(404).json({error:'quiz not found'});
-        }
-        Course[courseIndex].quizzes.splice(quizIndex, 1);
-        res.json({message:'quiz deleted successfully'});
-    } catch (error) {
-        res.status(500).json({ message: error.message })
+  try {
+    const courseId = req.params.courseId;
+    const quizId = req.params.quizId;
+    const course = await Course.findById(courseId);
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
     }
+    const quizIndex = course.quizzes.findIndex((quiz) => quiz._id.toString() === quizId);
+    if (quizIndex === -1) {
+      return res.status(404).json({ message: 'Quiz not found for this course' });
+    }
+    course.quizzes.splice(quizIndex, 1);
+    await course.save();
+    return res.status(200).json({
+      status: 'success',
+      message: 'Quiz deleted from course',
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
   }

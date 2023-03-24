@@ -5,12 +5,10 @@ const questionSchema =new mongoose.Schema(
         courseId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Course',
-            //required: true
         },
         quizId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Quiz',
-            //required: true
         },
         question: {
             type: String,
