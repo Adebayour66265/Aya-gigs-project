@@ -9,6 +9,7 @@ require('./db/db')()
 
 const Discussion = require('./routes/Discussion')
 const Comment = require('./routes/Comment')
+const Courses = require('./routes/CourseRoutes')
 
 process.on('unhandledRejection', (err) => {
   console.log(err, 'Unhandled Rejection at Promise')
@@ -26,6 +27,7 @@ app.use(express.json({ limit: '50mb' }))
 
 app.use('/discussion', Discussion)
 app.use('/comment', Comment)
+app.use('/courses',Courses)
 
 
 app.listen(PORT, () => {
