@@ -32,29 +32,29 @@ export const sendNewMaterialNotification = async (courseId, title) => {
 
 export const getAllNotifications = async (req, res) => {
   try {
-    const userNotifications = await Notification.find({
-      recipient: req.user._id,
-      isRead: false,
-    });
-    res.json(userNotifications);
+    const user = await User.findById(req.user.id).populate("notifications");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.notifications);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server Error" });
   }
 }
 
 export const getParticularNotification = async (req, res) => {
-  const { id } = req.params;
   try {
-    const notification = await Notification.findById(id);
+    const notification = await Notification.findById(req.params.id);
     if (!notification) {
-      return res.status(404).json({ message: "Notification not found" });
+      return res.status(404).send({ message: "Notification not found" });
     }
     notification.isRead = true;
     await notification.save();
-    res.json(notification);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.send(notification);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Server error" });
   }
 }
 export const deleteParticularNotification = async(req,req)=>{
