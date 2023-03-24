@@ -20,10 +20,9 @@ export const sendNewMaterialNotification = async (courseId, title) => {
     }));
     const savedNotifications = await Notification.insertMany(notifications);
 
-    students.forEach(async (student) => {
-      student.notifications.push(savedNotifications.find(n => n.recipient.toString() === student._id.toString())._id);
-      await student.save();
-    });
+    const notificationIds = savedNotifications.map(n => n._id);
+    await User.updateMany({ _id: { $in: students.map(s => s._id) } }, { $push: { notifications: { $each: notificationIds } } });
+
   } catch (error) {
     console.error(`Error sending notification: ${error.message}`);
   }
