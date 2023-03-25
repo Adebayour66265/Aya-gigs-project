@@ -12,7 +12,7 @@ import { config } from 'dotenv';
 config();
 import { dbConnection } from './db/db.js';
 // const debug = require('debug')('app')
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 7000
 const app = express();
 
 
