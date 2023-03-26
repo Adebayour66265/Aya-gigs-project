@@ -1,63 +1,81 @@
 import Notification from '../../model/notification.js'
-import User from '../../model/user'
+import User from '../../model/userModel.js'
+import Course from '../model/Courses.js';
+
+
+export const sendNewMaterialNotification = async (courseId, title) => {
+  try {
+    const course = await Course.findById(courseId);
+    if (!course) {
+      throw new Error("Course not found");
+    }
+
+    const students = await User.find({ _id: { $in: course.students } });
+    const notificationMessage = `New course material "${title}" has been created in ${course.title}`;
+    const notifications = students.map(student => ({
+      recipient: student._id,
+      subject: "New Course Material Created",
+      message: notificationMessage,
+      isRead: false
+    }));
+    const savedNotifications = await Notification.insertMany(notifications);
+
+    const notificationIds = savedNotifications.map(n => n._id);
+    await User.updateMany({ _id: { $in: students.map(s => s._id) } }, { $push: { notifications: { $each: notificationIds } } });
+
+  } catch (error) {
+    console.error(`Error sending notification: ${error.message}`);
+  }
+};
+
 
 export const getAllNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ recipient })
-    res.json({
-      status: 'Success',
-      data: notifications,
-    })
+    const user = await User.findById(req.user.id).populate("notifications");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user.notifications);
   } catch (error) {
-    res.json({
-      status: 'Error',
-      message: 'An error occured while retrieving Notifications',
-    })
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
   }
 }
 
 export const getParticularNotification = async (req, res) => {
   try {
-    const notification = await Notification.findById(req.params.id)
+    const notification = await Notification.findById(req.params.id);
     if (!notification) {
-      return res.json({
-        status: 'Error',
-        message: 'Notification not found',
-      })
+      return res.status(404).send({ message: "Notification not found" });
     }
-    res.json({
-      status: 'Success',
-      data: notification,
-    })
-  } catch (error) {
-    res.json({
-      status: 'Error',
-      message: 'An error occured while retrieving this Notification',
-    })
+    notification.isRead = true;
+    await notification.save();
+    res.send(notification);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Server error" });
   }
 }
-export const deleteParticularNotification = async (req, req) => {
-  try {
-    const deletedNotification = await Notification.findByIdAndDelete(
-      req.params.id,
-    )
-    if (!deletedNotification) {
-      return res.json({
-        status: 'Error',
-        message: 'Notification not found',
-      })
-    }
-    res.json({
-      status: 'Success',
-      message: 'Notification deleted successfully',
-    })
-  } catch (err) {
-    console.error(err)
-    res.json({
-      status: 'Error',
-      message: 'Internal Server Error',
-    })
-  }
+export const deleteParticularNotification = async(req,req)=>{
+    try {
+        const deletedNotification = await Notification.findByIdAndDelete(req.params.id);
+        if (!deletedNotification) {
+          return res.json({
+            status: "Error",
+            message: "Notification not found"
+          })
+        }
+        res.json({
+            status: "Success",
+            message: "Notification deleted successfully"
+        });
+      } catch (err) {
+        console.error(err);
+        res.json({
+          status: "Error",
+          message: "Internal Server Error"
+        });
+      }
 }
 
 export const clearNotifications = async (req, res) => {

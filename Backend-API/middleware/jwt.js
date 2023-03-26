@@ -1,22 +1,22 @@
 import jwt from 'jsonwebtoken'
 import expressjwt from 'express-jwt'
-import User from '../model/userModel'
+import User from '../model/User.js'
 
 const JWT_SECRET = 'secret_key'
 
 // Generate JWT token
-function generateToken(user) {
+export const generateToken = async(req,res)=> {
   const token = jwt.sign({ _id: user._id, role: user.role }, JWT_SECRET, {
-    expiresIn: '1h',
-  })
-  return token
+    expiresIn: '1h'
+  });
+  return token;
 }
 
 // Authenticate JWT token
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(' ')[1]
-
+export const authenticateToken = async (req, res, next)=> {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  
   if (token == null) {
     return res.status(401).json({ message: 'Access denied. Token required.' })
   }
@@ -31,7 +31,7 @@ function authenticateToken(req, res, next) {
 }
 
 // Authorize user by role
-function authorizeRole(role) {
+export  function authorizeRole(role) {
   return (req, res, next) => {
     User.findById(req.user._id, (err, user) => {
       if (err) {
@@ -47,7 +47,7 @@ function authorizeRole(role) {
   }
 }
 // Define admin middleware
-function adminMiddleware(req, res, next) {
+export  function adminMiddleware(req, res, next) {
   if (req.user.role === 'admin') {
     next()
   } else {
@@ -55,9 +55,16 @@ function adminMiddleware(req, res, next) {
   }
 }
 
-module.exports = {
-  generateToken,
-  authenticateToken,
-  authorizeRole,
-  adminMiddleware,
-}
+// module.exports = {
+//   generateToken,
+//   authenticateToken,
+//   authorizeRole,
+//   adminMiddleware,
+// }
+
+// module.exports = {
+//   generateToken,
+//   authenticateToken,
+//   authorizeRole,
+//   adminMiddleware
+// };

@@ -1,5 +1,5 @@
 import Quiz from "../model/quiz.js";
-import validateInput from "../validation/quiz.js";
+import validateInput from "./validation/quiz.js";
 
 
 

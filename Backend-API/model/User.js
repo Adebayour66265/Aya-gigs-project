@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 
 // Define user schema
 const userRoleSchema = new mongoose.Schema(
@@ -6,31 +6,35 @@ const userRoleSchema = new mongoose.Schema(
     firstname: {
       type: String,
       required: true,
-      lowercase: true,
     },
     lastname: {
       type: String,
       required: true,
-      lowercase: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
     },
     password: {
       type: String,
       required: true,
     },
+    confirmPassword: {
+      type: String,
+      required: true,
+    },
     phoneNumber: {
       type: String,
+      required: true,
     },
     companyId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Company',
+      type: String,
     },
-    companyName: { type: String, required: true, lowercase: true },
+
+    companyName: {
+      type: String,
+    },
     businessType: {
       type: String,
       enum: [],
@@ -51,10 +55,27 @@ const userRoleSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ['superuser', 'admin', 'instructor', 'student'],
-      default: 'student',
+      enum: ["superuser", "admin", "instructor", "student"],
+      default: "student",
     },
+    notifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Notification",
+      },
+    ],
 
+    courses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+      },
+    ],
+
+    isBlock: {
+      type: Boolean,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -63,14 +84,20 @@ const userRoleSchema = new mongoose.Schema(
     views: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
+      },
+    ],
+    Blocked: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
   },
-  { timestamps: true, toJSON: { virtuals: true } },
-)
+  { timestamps: true, toJSON: { virtuals: true } }
+);
 
 // Create user model
-const User = mongoose.model('User', userRoleSchema)
+const User = mongoose.model("User", userRoleSchema);
 
-module.exports = User
+export default User;

@@ -1,6 +1,6 @@
-const Comment = require('../../model/Comments')
+import Comment  from'../../model/Comments.js'
 
-module.exports = async (req, res) => {
+export const deleteComment= async (req, res) => {
   await Comment.deleteOne({ _id: req.params.commentId })
   res.status(200).json({ message: 'Deleted!' })
 }
