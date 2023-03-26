@@ -32,7 +32,7 @@ export const updateQuiz= async(req, res) => {
     }
     quiz.title = title;
     quiz.description = description;
-    quiz.questions = questions;
+    //quiz.questions = questions;
     await quiz.save();
     return res.status(200).json({
       status: 'success',
