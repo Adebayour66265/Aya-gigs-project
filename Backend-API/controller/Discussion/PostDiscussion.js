@@ -1,8 +1,7 @@
-import  Discussion  from '../../model/Discussion';
-const User = require('../../model/User')
-import postDiscusion from '../../validation/Discussion/postDisscussion'
-import { cloudinary } from '../../utilis/cloudinary';
-
+import Discussion from '../../model/Discussion.js'
+// const User = require('../../model/User')
+import postDiscusion from '../../validation/Discussion/postDisscussion.js'
+import cloudinary from '../../utilis/cloudinary.js'
 
 export const postDiscussion = async (req, res) => {
   const { value, error } = postDiscusion(req.body)

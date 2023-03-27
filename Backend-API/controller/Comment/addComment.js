@@ -1,5 +1,5 @@
-import Discussion  from '../../model/Discussion'
-import Comment  from'../../model/Comments'
+import Discussion  from '../../model/Discussion.js'
+import Comment  from'../../model/Comments.js'
 
 export const addComment = async (req, res) => {
   const comment = new Comment({

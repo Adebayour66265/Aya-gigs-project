@@ -105,3 +105,24 @@ export const deleteCourse = async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 }
+
+// Search courses
+export const searchCourses = async (req, res) => {
+  try {
+    const { query } = req.params;
+    const regex = new RegExp(query, 'i'); // 'i' means case-insensitive
+    const courses = await Course.find({ title: { $regex: regex } });
+
+    const results = courses.map((course) => ({
+      id: course._id,
+      title: course.title,
+      description: course.description,
+    }));
+
+    return res.status(200).json({ results });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).send('Server Error');
+  }
+};
+
