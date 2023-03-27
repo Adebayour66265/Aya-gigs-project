@@ -17,9 +17,10 @@ export const register = async (req, res) => {
   try {
     // Check if user already exists
     const user = await User.findOne({ email });
-    if (role !== "admin") return res.status(400).send("Access denied");
+    if (role !== "student") return res.status(400).send("Access denied");
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
+
       // Hash password and save user
     } else {
       const salt = await bcrypt.genSalt(10);
@@ -33,11 +34,11 @@ export const register = async (req, res) => {
         phoneNumber,
         email,
         confirmPassword: hashedPassword,
-        password: hashedPassword,
+        password: hashedPassword
       });
       res.json({
         status: "success",
-        data: user,
+        data: user
       });
     }
   } catch (error) {
@@ -56,12 +57,12 @@ export const login = async (req, res) => {
   // console.log(req.headers);
 
   // Check if user exists and is a student
-  const user = await User.findOne({ email, role: "admin" });
+  const user = await User.findOne({ email, role: "student" });
   try {
     if (!user) {
       return res.status(401).json({ message: "Wrong details" });
     }
-    if (role !== "admin") return res.status(400).send("Access denied");
+    if (role !== "student") return res.status(400).send("Access denied");
     // Check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -74,8 +75,8 @@ export const login = async (req, res) => {
           lastname: user.lastname,
           email: user.email,
           role: user.role,
-          token: generateToken(user.id),
-        },
+          token: generateToken(user.id)
+        }
       });
     }
     // // Create JWT token
@@ -160,8 +161,8 @@ export const registerInstructor = async (req, res) => {
 
     // Check if user already exists
     const user = await User.findOne({ email });
-    const companyId = Math.floor(Math.random() * 90000) + 10000;
     if (role !== "instructor") return res.status(400).send("Access denied");
+    const companyId = Math.floor(Math.random() * 90000) + 10000;
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
       // Hash password and save user
@@ -177,11 +178,11 @@ export const registerInstructor = async (req, res) => {
         email,
         confirmPassword: hashedPassword,
         password: hashedPassword,
-        companyId, // Get company ID from request body
+        companyId // Get company ID from request body
       });
       res.json({
         status: "success",
-        data: instructor,
+        data: instructor
       });
       const savedInstructor = await instructor.save();
 
@@ -227,8 +228,8 @@ export const loginInstructor = async (req, res) => {
           lastname: user.lastname,
           email: user.email,
           role,
-          token: generateToken(user.id),
-        },
+          token: generateToken(user.id)
+        }
       });
     }
   } catch (error) {
@@ -249,13 +250,13 @@ export const blockUser = async (req, res) => {
 
       if (isUserBlock) {
         return res.json({
-          message: `you have block ${userToBlock.firstname} already`,
+          message: `you have block ${userToBlock.firstname} already`
         });
       } else {
         userBlocking.Blocked.push(userToBlock._id);
         await userBlocking.save();
         return res.json({
-          message: `you have just block ${userToBlock.firstname}`,
+          message: `you have just block ${userToBlock.firstname}`
         });
       }
     }
@@ -274,7 +275,7 @@ export const unBlockUser = async (req, res) => {
 
       if (!isUserUnblock) {
         return res.json({
-          message: `you did not block ${userToUnblock.firstname}`,
+          message: `you did not block ${userToUnblock.firstname}`
         });
       } else {
         userUnblocking.Blocked = userUnblocking.Blocked.filter(
@@ -283,7 +284,7 @@ export const unBlockUser = async (req, res) => {
         await userUnblocking.save();
 
         res.json({
-          message: `you have unblock ${userToUnblock.firstname} successfully`,
+          message: `you have unblock ${userToUnblock.firstname} successfully`
         });
       }
     }
@@ -291,18 +292,95 @@ export const unBlockUser = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+// // Admin Block
+// export const adminBlockUserController = async(req,res) =>{
+//   try {
 
+//     //get the user you want to block
+//    const userToBlocked = await User.findById(req.params.id);
+//    if (!userToBlocked){
+//     res.json({
+//       status:"error",
+//       message:"User details not found!"
+//     })
+//    }else{
+//     if(userToBlocked.isBlock){
+//       userToBlocked.isBlock = true;
+//       await userToBlocked.save();
+//       res.json({
+//         status:"success",
+//         data:"You have blocked the user successfully"
+//       })
+//     }
+//     else{
+//       return res.json ({
+//         status:'error',
+//         message: "Access Denied, this user had been blocked already"
+//       })
+//     }
+//   }
 
-//Admin BLock
+//   }catch (error) {
+//     res.json(error.message)
+//   }
+// }
 
-export const AdminBlockUserController = async(req,res)=> {
+export const adminBlockUserController = async (req, res) => {
   try {
-    res.json({
-      status:"success",
-      data: "you "
-    })
-
+    //Obtain the user you want to unblock
+    const userToBlocked = await User.findById(req.params.id);
+    if (!userToBlocked) {
+      res.json({
+        status: "success",
+        message: "User not found"
+      });
+    } else {
+      if (userToBlocked.isBlock) {
+        userToBlocked.isBlock = true;
+        await userToBlocked.save();
+        res.json({
+          status: "success",
+          data: "You have blocked the user successfully"
+        });
+      } else {
+        return res.json({
+          status: "error",
+          message: "Access Denied, You have blocked the user"
+        });
+      }
+    }
   } catch (error) {
-    
+    res.json(error.message);
   }
-}
+};
+
+//Admin Unblocked user
+
+export const adminUnBlockUserController = async (req, res) => {
+  try {
+    //Obtain the user you want to unblock
+    const userToBeUnBlocked = await User.findById(req.params.id);
+    if (!userToBeUnBlocked) {
+      res.json({
+        status: "success",
+        message: "User not found"
+      });
+    } else {
+      if (userToBeUnBlocked.isBlock) {
+        userToBeUnBlocked.isBlock = false;
+        await userToBeUnBlocked.save();
+        res.json({
+          status: "success",
+          data: "You have unblocked the user successfully"
+        });
+      } else {
+        return res.json({
+          status: "error",
+          message: "You have not block the user"
+        });
+      }
+    }
+  } catch (error) {
+    res.json(error.message);
+  }
+};

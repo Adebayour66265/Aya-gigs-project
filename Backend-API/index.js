@@ -1,15 +1,22 @@
 import express from 'express'
 import cors from 'cors'
 
+
 import * as dotenv from 'dotenv' 
-import { dbConnection } from './db/db';
+// import { dbConnection } from './db/db';
+import { dbConnect } from './config/db.js';
+import router from './routes/userRoute.js';
+
+import adminRouter from './routes/adminRoute.js';
+
+
 dotenv.config()
 // const debug = require('debug')('app')
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5432
 const app = express();
 
-
-dbConnection();
+dbConnect();
+// dbConnection();
 
 process.on('unhandledRejection', (err) => {
   console.log(err, 'Unhandled Rejection at Promise')
@@ -21,5 +28,6 @@ process.on('uncaughtException', (err) => {
 })
 
 app.use("/api/users", router);
+app.use("/admins", adminRouter);
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`));

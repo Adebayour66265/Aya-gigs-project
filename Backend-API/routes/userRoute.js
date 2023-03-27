@@ -10,14 +10,15 @@ import {
   deleteUserById,
   loginInstructor,
   blockUser,
-  unBlockUser
+  unBlockUser,
+  adminBlockUserController,
+  adminUnBlockUserController
 } from "../controller/userController.js";
 import {
   adminMiddleware,
-  authenticateToken,
-  authorizeRole
+  authenticateToken
 } from "../middleware/authenticateToken.js";
-import authMiddleware from "../middleware/authMiddleWare.js";
+import { isAdmin } from "../middleware/isAdmin.js";
 
 const router = express.Router();
 
@@ -34,19 +35,34 @@ router.post("/login", login);
 router.post("/loginInstructor", loginInstructor);
 
 // Get all users (requires admin role)
-router.get("/", authenticateToken,  getAllUsers);
+router.get("/", getAllUsers);
 
 // Get a single user by ID
 router.get("/profile/", authenticateToken, getUserById);
 
 // Update a user by ID
-router.put("/:id",authenticateToken, updateUserById);
+router.put("/:id", updateUserById);
 
 // Delete a user by ID
 router.delete("/delete/", authenticateToken, deleteUserById);
 // Block user
-router.get("/blocked/:id", authenticateToken, blockUser);
+router.get("/blocked/:id", adminMiddleware, authenticateToken, blockUser);
 //unblocked user
 router.get("/unblocked/:id", authenticateToken, unBlockUser);
 
+//Admin block user
+router.get(
+  "/admin-block/:id",
+  isAdmin,
+  authenticateToken,
+  adminBlockUserController
+);
+
+//Admin block user
+router.get(
+  "/admin-unblock/:id",
+  isAdmin,
+  authenticateToken,
+  adminUnBlockUserController
+);
 export default router;
