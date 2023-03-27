@@ -1,7 +1,7 @@
-const Discussion = require('../../model/Discussion')
-const Comment = require('../../model/Comments')
+import Discussion  from '../../model/Discussion.js'
+import Comment  from'../../model/Comments.js'
 
-module.exports = async (req, res) => {
+export const addComment = async (req, res) => {
   const comment = new Comment({
     text: req.body.text,
     post: req.params.id,

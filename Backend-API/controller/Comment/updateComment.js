@@ -1,6 +1,6 @@
-const Comment = require('../../model/Comments')
+import Comment  from'../../model/Comments.js'
 
-module.exports = async (req, res) => {
+export const updateComment= async (req, res) => {
   const { text } = req.body
 
   await Comment.updateOne(

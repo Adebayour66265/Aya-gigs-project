@@ -1,18 +1,17 @@
-const express = require('express')
+import express from 'express'
 
-const router = express.Router()
+const comments = express.Router()
+import { addComment } from '../controller/Comment/addComment.js'
+import { getAllComment } from '../controller/Comment/getAllComment.js'
+import { getOneComment } from '../controller/Comment/getOneComment.js'
+import { deleteComment } from '../controller/Comment/deleteComment.js'
+import { updateComment } from '../controller/Comment/updateComment.js'
 
-const addComment = require('../controller/Comment/addComment')
-const getAllComment = require('../controller/Comment/getAllComment')
-const getOneComment = require('../controller/Comment/getOneComment')
-const deleteComment = require('../controller/Comment/deleteComment')
-const updateComment = require('../controller/Comment/updateComment')
+comments.post('/:id', addComment)
+comments.get('/:id', getAllComment)
+comments.get('/:postId/comments/:commentId/getone', getOneComment)
+comments.delete('/:commentId', deleteComment)
 
-router.post('/:id', addComment)
-router.get('/:id', getAllComment)
-router.get('/:postId/comments/:commentId/getone', getOneComment)
-router.delete('/:commentId', deleteComment)
+comments.put('/putcomment/:commentId', updateComment)
 
-router.put('/putcomment/:commentId', updateComment)
-
-module.exports = router
+export default comments;

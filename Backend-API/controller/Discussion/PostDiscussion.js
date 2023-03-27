@@ -1,10 +1,9 @@
-const Discussion = require('../../model/Discussion')
-const User = require('../../model/User')
-const postDiscusion = require('../../validation/Discussion/postDisscussion')
-const cloudinary = require('../../utilis/cloudinary')
+import Discussion from '../../model/Discussion.js'
+// const User = require('../../model/User')
+import postDiscusion from '../../validation/Discussion/postDisscussion.js'
+import cloudinary from '../../utilis/cloudinary.js'
 
-
-module.exports = async (req, res) => {
+export const postDiscussion = async (req, res) => {
   const { value, error } = postDiscusion(req.body)
   if (error) return res.status(400).send({ error: error.details[0].message })
   const { title, author, body } = value
