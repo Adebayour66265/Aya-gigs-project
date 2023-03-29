@@ -6,6 +6,8 @@ export const addCourse = async (req, res) => {
     const {
       title,
       instructor,
+      language,
+      coursePromotionalVideo,
       description,
       isFree,
       courseThumbnailImage,
@@ -20,8 +22,10 @@ export const addCourse = async (req, res) => {
 
     const newCourse = new Course({
       title,
-      // courseThumbnailImage,
+      courseThumbnailImage,
       instructor,
+      language,
+      coursePromotionalVideo,
       description,
       isFree,
     })
@@ -63,7 +67,7 @@ export const getCourse = async (req, res) => {
 // Update a course
 export const updateCourse = async (req, res) => {
   try {
-    const { title, instructor, description, isFree, status } = req.body
+    const { title,language, coursePromotionalVideo, courseThumbnailImage, instructor, description, isFree, status } = req.body
 
     const course = await Course.findById(req.params.id)
 
@@ -72,6 +76,9 @@ export const updateCourse = async (req, res) => {
     }
 
     course.title = title
+    course.coursePromotionalVideo = coursePromotionalVideo
+    course.courseThumbnailImage = courseThumbnailImage
+    course.language = language
     course.instructor = instructor
     course.description = description
     course.isFree = isFree
