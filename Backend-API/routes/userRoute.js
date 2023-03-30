@@ -1,14 +1,13 @@
 import express from "express";
+import {registerInstructor, loginInstructor, forgotPasswordInstructor, resetPasswordInstructor } from "../controller/instructorController.js";
 
 import {
   register,
-  registerInstructor,
   login,
   getAllUsers,
   getUserById,
   updateUserById,
   deleteUserById,
-  loginInstructor,
   blockUser,
   unBlockUser,
   adminBlockUserController,
@@ -70,5 +69,8 @@ router.get(
 
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
+
+router.post('/forgot-password', forgotPasswordInstructor);
+router.post('/reset-password/:token', resetPasswordInstructor);
 
 export default router;

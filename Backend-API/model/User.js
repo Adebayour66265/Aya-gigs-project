@@ -48,8 +48,7 @@ const userRoleSchema = new mongoose.Schema({
   },
   companyId: {
     type: String,
-    
-    
+       
   },
 
   companyName:{

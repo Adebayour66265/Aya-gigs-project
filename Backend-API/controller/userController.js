@@ -148,92 +148,90 @@ export const deleteUserById = async (req, res) => {
   }
 };
 
-export const registerInstructor = async (req, res) => {
-  const { error } = registerValidation.validate(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
-  try {
-    const { lastname, firstname, email, password, phoneNumber, role } =
-      req.body;
+// export const registerInstructor = async (req, res) => {
+//   const { error } = registerValidation.validate(req.body);
+//   if (error) {
+//     return res.status(400).send(error.details[0].message);
+//   }
+//   try {
+//     const { lastname, firstname, email, password, role } =
+//       req.body;
 
-    // Check if user already exists
-    const user = await User.findOne({ email });
-    // if (role !== 'instructor') return res.status(400).send('Access denied');
-    const companyId = Math.floor(Math.random() * 90000) + 10000;
-    if (user) {
-      return res.status(400).json({ msg: "User already exists" });
-      // Hash password and save user
-    } else {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
+//     // Check if user already exists
+//     const user = await User.findOne({ email });
+//     if (role !== 'instructor') return res.status(400).send('Access denied');
+//     const companyId = Math.floor(Math.random() * 90000) + 10000;
+//     if (user) {
+//       return res.status(400).json({ msg: "User already exists" });
+//       // Hash password and save user
+//     } else {
+//       const salt = await bcrypt.genSalt(10);
+//       const hashedPassword = await bcrypt.hash(password, salt);
 
-      const instructor = new User({
-        firstname,
-        lastname,
-        role,
-        phoneNumber,
-        email,
-        confirmPassword: hashedPassword,
-        password: hashedPassword,
-        companyId // Get company ID from request body
-      });
-      res.json({
-        status: "success",
-        data: instructor
-      });
-      const savedInstructor = await instructor.save();
+//       const instructor = new User({
+//         firstname,
+//         lastname,
+//         role,
+//         email,
+//         password: hashedPassword,
+//         companyId // Get company ID from request body
+//       });
+//       res.json({
+//         status: "success",
+//         data: instructor
+//       });
+//       const savedInstructor = await instructor.save();
 
-      // Generate JWT token and send response
-      const token = jwt.sign(
-        { userId: savedInstructor._id },
-        process.env.JWT_SECRET
-      );
-      res.status(201).json({ token, user: savedInstructor });
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+//       // Generate JWT token and send response
+//       const token = jwt.sign(
+//         { userId: savedInstructor._id },
+//         process.env.JWT_SECRET
+//       );
+//       res.status(201).json({ token, user: savedInstructor });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
-//Login for Instructors
-export const loginInstructor = async (req, res) => {
-  // // Validate the request body using Joi
-  const { error } = loginInstructorValidation.validate(req.body);
-  if (error) {
-    return res.status(400).send(error.details[0].message);
-  }
+// //Login for Instructors
+// export const loginInstructor = async (req, res) => {
+//   // // Validate the request body using Joi
+//   const { error } = loginInstructorValidation.validate(req.body);
+//   if (error) {
+//     return res.status(400).send(error.details[0].message);
+//   }
 
-  // Check if the user exists
-  const { companyId, password, role } = req.body;
-  const user = await User.findOne({ companyId });
-  try {
-    if (!user) {
-      return res.status(400).send("Company ID is invalid");
-    }
-    // Check if the user is an instructor
-    // if (role !== 'instructor') return res.status(400).send('Access denied');
+//   // Check if the user exists
+//   const { companyId, password, role } = req.body;
+//   const user = await User.findOne({ companyId });
+//   try {
+//     if (!user) {
+//       return res.status(400).send("Company ID is invalid");
+//     }
+//     // Check if the user is an instructor
+//     // if (role !== 'instructor') return res.status(400).send('Access denied');
 
-    // Check if the password is correct
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-      return res.status(400).send("Password is invalid");
-    } else {
-      res.json({
-        status: "success",
-        data: {
-          firstname: user.firstname,
-          lastname: user.lastname,
-          email: user.email,
-          role,
-          token: generateToken(user.id)
-        }
-      });
-    }
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+//     // Check if the password is correct
+//     const validPassword = await bcrypt.compare(password, user.password);
+//     if (!validPassword) {
+//       return res.status(400).send("Password is invalid");
+//     } else {
+//       res.json({
+//         status: "success",
+//         data: {
+//           firstname: user.firstname,
+//           lastname: user.lastname,
+//           email: user.email,
+//           role,
+//           token: generateToken(user.id)
+//         }
+//       });
+//     }
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
 //Block
 export const blockUser = async (req, res) => {
