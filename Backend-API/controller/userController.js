@@ -118,11 +118,11 @@ export const getUserById = async (req, res) => {
 export const updateUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { username,fullname, aboutYou, profession,interest, email } = req.body;
+    const { username,fullname, aboutYou, profession,interest } = req.body;
 
     await User.findOneAndUpdate(
       { _id: id },
-      { username,fullname, aboutYou, profession,interest, email },
+      { username,fullname, aboutYou, profession,interest },
       { useFindAndModify: false }
     );
 

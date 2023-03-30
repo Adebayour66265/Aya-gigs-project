@@ -70,7 +70,7 @@ router.get(
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
 
-router.post('/forgot-password', forgotPasswordInstructor);
-router.post('/reset-password/:token', resetPasswordInstructor);
+router.post('/instructor/forgot-password', forgotPasswordInstructor);
+router.post('/instructor/reset-password/:token', resetPasswordInstructor);
 
 export default router;
